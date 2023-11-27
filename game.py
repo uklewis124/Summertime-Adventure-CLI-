@@ -22,4 +22,8 @@ def load_game():
     print(Fore.GREEN, "Imports Ready...")
     time.sleep(1)
     clear()
-    
+    print(Fore.GREEN, "Loading Game...", Fore.RESET)
+    time.sleep(1)
+    clear()
+load_game()
+
