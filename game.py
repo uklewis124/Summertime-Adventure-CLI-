@@ -2,7 +2,6 @@ import os
 import time
 from colorama import Fore, Back, Style
 
-
 def clear():
     """
     Clears the console screen.
