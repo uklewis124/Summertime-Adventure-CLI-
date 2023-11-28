@@ -1,6 +1,11 @@
 import os
+print("os Module Loaded")
 import time
+print("time Module Loaded")
+import load_game
+print("load_game Module Loaded")
 from colorama import Fore, Back, Style
+print("colorama Module Loaded")
 
 def clear():
     """
@@ -27,9 +32,8 @@ def load_game():
     clear()
 
 
-load_game()
-
-### Main Menu ###
+if __name__ == "__main__":
+    load_game()
 
 
 class MainMenu:
@@ -42,6 +46,7 @@ class MainMenu:
         self.selected = 0
         self.running = True
         MainMenu.menu(self)
+
     def menu(self):
         print(Fore.GREEN, "Main Menu", Fore.RESET)
         print(Fore.GREEN, "-----------", Fore.RESET)
@@ -68,7 +73,7 @@ class MainMenu:
             elif self.selected == 3:
                 self.new_game()
             elif self.selected == 4:
-                self.credits()
+                self.show_credits()
             else:
                 quit()
         else:
@@ -76,25 +81,48 @@ class MainMenu:
             input("Press Enter to continue...")
             clear()
             MainMenu.menu(self)
+
     def continue_game(self):
-        print(Fore.GREEN, "Continue Game", Fore.RESET)
-        input("Press Enter to continue...")
-        clear()
-        MainMenu.menu(self)
+        current_save = "save_games/current_save.txt"
+        # Grab the contents of the file, then find what file path is in the txt file and load that file as a save
+        with open(current_save, "r") as f:
+            save_file = f.read()
+            if save_file == "":
+                print(Fore.RED, "No save file found, please load a game or start a new game", Fore.RESET)
+                input("Press Enter to continue...")
+                clear()
+                MainMenu.menu(self)
+            elif save_file in os.listdir("save_games"):
+                print(Fore.GREEN, "Loading save file: ", save_file, Fore.RESET)
+                load_game()
+                input("Press Enter to continue...")
+                clear()
+                MainMenu.menu(self)
+            else:
+                print(Fore.RED, "Save file corrupted. Please load a save manually.", Fore.RESET)
+                with open(current_save, "w") as f:
+                    f.write("")
+                input("Press Enter to continue...")
+                clear()
+                MainMenu.menu(self)
+            f.close()
+
     def load_game(self):
         print(Fore.GREEN, "Load Game", Fore.RESET)
         input("Press Enter to continue...")
         clear()
         MainMenu.menu(self)
+
     def new_game(self):
         print(Fore.GREEN, "New Game", Fore.RESET)
         input("Press Enter to continue...")
         clear()
         MainMenu.menu(self)
-    def credits(self):
+
+    def show_credits(self):
         print(Fore.GREEN, "Credits", Fore.RESET)
-        credits = ["Programming: Lewis", "Graphics: Lewis", "Story: Lewis", "Music: Lewis", "Sound Effects: Lewis", "Testing: Lewis", "Special Thanks: Lewis"]
-        for credit in credits:
+        credit_list = ["Programming: Lewis", "Graphics: Lewis", "Story: Lewis", "Music: Lewis", "Sound Effects: Lewis", "Testing: Lewis", "Special Thanks: Lewis"]
+        for credit in credit_list:
             print(Fore.GREEN, credit, Fore.RESET)
             time.sleep(0.5)
         input("Press Enter to continue...")
@@ -102,4 +130,5 @@ class MainMenu:
         MainMenu.menu(self)
 
 
-MainMenu()
+if __name__ == "__main__":
+    MainMenu()
