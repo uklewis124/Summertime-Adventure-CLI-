@@ -2,7 +2,7 @@ import os
 print("os Module Loaded")
 import time
 print("time Module Loaded")
-import load_game
+import load_game as lg
 print("load_game Module Loaded")
 from colorama import Fore, Back, Style
 print("colorama Module Loaded")
@@ -45,9 +45,13 @@ class MainMenu:
         self.options = ["Continue Last Played Game", "Load Game", "New Game", "Credits", "Exit"]
         self.selected = 0
         self.running = True
-        MainMenu.menu(self)
+        self.error = True
+
 
     def menu(self):
+        if self.error:
+            print(Fore.RED, "An error may have just occured. Please report this to the developer.", Fore.RESET)
+            self.error = True
         print(Fore.GREEN, "Main Menu", Fore.RESET)
         print(Fore.GREEN, "-----------", Fore.RESET)
         print(Fore.GREEN, "Options:", Fore.RESET)
@@ -59,7 +63,7 @@ class MainMenu:
         try:
             self.selected = int(input(Fore.GREEN + "Select an option: " + Fore.RESET))
         except ValueError:
-            print(Fore.RED, "Please enter a number between 1 and " + str(len(self.options)), Fore.RESET)
+            print(Fore.RED, f"Please enter a number between 1 and {str(len(self.options))}", Fore.RESET)
             input("Press Enter to continue...")
             clear()
             MainMenu.menu(self)
@@ -94,10 +98,10 @@ class MainMenu:
                 MainMenu.menu(self)
             elif save_file in os.listdir("save_games"):
                 print(Fore.GREEN, "Loading save file: ", save_file, Fore.RESET)
-                load_game()
+                lg.load()
                 input("Press Enter to continue...")
                 clear()
-                MainMenu.menu(self)
+                return save_file
             else:
                 print(Fore.RED, "Save file corrupted. Please load a save manually.", Fore.RESET)
                 with open(current_save, "w") as f:
@@ -131,4 +135,6 @@ class MainMenu:
 
 
 if __name__ == "__main__":
-    MainMenu()
+    initial_menu = MainMenu()
+    initial_menu.error = False
+    initial_menu.menu()
