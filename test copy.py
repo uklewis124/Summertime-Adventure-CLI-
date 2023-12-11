@@ -12,6 +12,8 @@ dict2 = {
     "test2":5
 }
 
+
+
 lister = ["fireball", "ice spear"]
 
 array = [1,5,7]
@@ -22,10 +24,6 @@ new_save = {
     "time": time,
     "list": lister
 }
-
-
-
-
 
 with open('test_file.pkl', 'wb') as f:
     pickle.dump(new_save, f)
@@ -38,5 +36,15 @@ with open('test_file.pkl', 'rb') as f:
     time = students_loaded["time"]
     lister = students_loaded["list"]
 
-print(lister)
-print(lister[0])
+print(new_save)
+
+
+def update_dictionary(key, value, dict=new_save):
+    dict[key] = value
+def update_time(inp):
+    time = inp
+
+dict2.update({"test3": 10})
+update_dictionary("dict2", dict2)
+
+print(new_save)
