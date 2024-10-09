@@ -11,6 +11,7 @@ if __name__ == "__main__":
     from colorama import Fore, Back, Style
     print("colorama Module Loaded")
 
+
 def clear():
     """
     Clears the console screen.
@@ -35,7 +36,6 @@ def load_game():
     time.sleep(1)
     clear()
 
-
 if __name__ == "__main__":
     load_game()
 
@@ -56,6 +56,7 @@ class MainMenu:
         if self.error:
             print(Fore.RED, "An error may have just occured. Please report this to the developer.", Fore.RESET)
             self.error = True
+
         print(Fore.GREEN, "Main Menu", Fore.RESET)
         print(Fore.GREEN, "-----------", Fore.RESET)
         print(Fore.GREEN, "Options:", Fore.RESET)
